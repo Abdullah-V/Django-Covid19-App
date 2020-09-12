@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <style type="text/css">
+            body{
+                margin: 0px;
+                padding: 0px;
+                box-sizing: border-box;
+                background-color: rgb(4, 2, 31);
+            }
+            .btndiv{
+                position:absolute;
+                left: 50%;
+                top: 3%;
+                transform: translate(-50%,-50%);
+            }
+            canvas{
+                margin-top: 30px;
+            }
+    </style>
+</head>
+<body>
+
+<div class="btndiv">
+    <button class="btn deathbtn">Death</button>
+    <button class="btn confirmedbtn">Confirmed</button>
+    <button class="btn recoveredbtn">Recovered</button>
+</div>
+
+    <canvas></canvas>
+<script>
+var ctx = document.querySelector("canvas")
+ctx = ctx.getContext("2d")
+var cn = "{{ cn }}"
+var confirmedlist = []
+var deathlist = []
+var recoveredlist = []
+var dates = []
+var recbtn = document.querySelector(".recoveredbtn")
+var deathbtn = document.querySelector(".deathbtn")
+var confbtn = document.querySelector(".confirmedbtn")
+
+
+var request = new XMLHttpRequest()
+request.open('GET',"https://api.covid19api.com/dayone/country/"+cn,true)
+request.onload = function(){
+    var data = JSON.parse(this.response)
+    for(var i = 0;i<data.length;i++){
+        confirmedlist.push(data[i]['Confirmed'])
+        deathlist.push(data[i]['Deaths'])
+        recoveredlist.push(data[i]['Recovered'])
+        dates.push(data[i]['Date'])
+    }
+    var myChart = new Chart(ctx,{
+        type:"line",
+        data:{
+            labels:dates,
+            datasets:[{
+                label:data[0]['Country'] + "-Confirmed",
+                data:confirmedlist,
+                backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            }]
+        },
+        options: {
+        legend: {
+            display: true,
+            labels: {
+                fontColor: "white",
+                fontSize:30
+            }
+        }
+    }
+    })
+    recbtn.addEventListener('click',() => {
+        myChart = new Chart(ctx,{
+        type:"line",
+        data:{
+            labels:dates,
+            datasets:[{
+                label:data[0]['Country'] + "-Recovered",
+                data:recoveredlist,
+                backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            }]
+        },
+        options: {
+        legend: {
+            display: true,
+            labels: {
+                fontColor: "white",
+                fontSize:30
+            }
+        }
+    }
+
+    })
+    
+    })
+    deathbtn.addEventListener('click',() => {
+        myChart = new Chart(ctx,{
+        type:"line",
+        data:{
+            labels:dates,
+            datasets:[{
+                label:data[0]['Country'] + "-Death",
+                data:deathlist,
+                backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            }]
+        },
+        options: {
+        legend: {
+            display: true,
+            labels: {
+                fontColor: "white",
+                fontSize:30
+            }
+        }
+    }
+
+    })
+    })
+
+    confbtn.addEventListener('click',() => {
+        myChart = new Chart(ctx,{
+        type:"line",
+        data:{
+            labels:dates,
+            datasets:[{
+                label:data[0]['Country'] + "-Confirmed",
+                data:confirmedlist,
+                backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            }]
+        },
+        options: {
+        legend: {
+            display: true,
+            labels: {
+                fontColor: "white",
+                fontSize:30
+            }
+        }
+    }
+
+    })
+    })
+    
+}
+
+
+request.send()
+</script>
+</body>
+</html>

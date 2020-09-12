@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=yes">
+    <title>Covidapp</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <style type="text/css">
+        body{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            background-color: rgb(4, 2, 31);
+        }
+
+        .globalcont{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            transition: all 1s ease-in-out;
+            flex-wrap: wrap;
+        }
+
+
+        .globalchild{
+            height: 130px;
+            width: 280px;
+            background-color: rgba(0, 88, 251, .6);
+            padding: 13px 25px;
+            margin: 10px;
+            transition: all .7s ease-in-out;
+            cursor: pointer;
+            border-radius:20px
+        }
+
+
+        .globalchild:nth-child(1){
+            background: rgb(0,102,144);
+            background: linear-gradient(0deg, rgba(0,102,144,1) 0%, rgba(0,22,98,1) 100%);
+        }
+        .globalchild:nth-child(2){
+            background: rgb(199,0,41);
+            background: linear-gradient(0deg, rgba(199,0,41,1) 0%, rgba(106,0,11,1) 100%);        }
+        .globalchild:nth-child(3){
+            background: rgb(14,159,0);
+            background: linear-gradient(0deg, rgba(14,159,0,1) 0%, rgba(16,57,0,1) 100%);        }
+        .globalchild:nth-child(4){
+            background: rgb(176,148,0);
+            background: linear-gradient(0deg, rgba(176,148,0,1) 0%, rgba(157,100,0,1) 100%);        }
+        .globalchild:nth-child(5){
+            background: rgb(167,1,212);
+            background: linear-gradient(0deg, rgba(167,1,212,1) 0%, rgba(61,0,79,1) 100%);
+        }
+        .globalchild:nth-child(6){
+            background: rgb(41,139,255);
+            background: linear-gradient(0deg, rgba(41,139,255,1) 0%, rgba(1,7,129,1) 100%);
+        }
+
+
+
+        .generaltext{
+            text-align: center;
+            font-size: 35px;
+            color: white;
+            word-spacing: 6px;
+            letter-spacing: 1px;
+        }
+
+
+        .childh1{
+            text-align: center;
+        }
+
+        .childh2{
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+
+        #search{
+            margin: 60px 0px;
+            width: 70%;
+            height: 7%;
+            transform: translate(-50%,-50%);
+            outline-color: rgb(28, 28, 255);
+            position: absolute;
+            left: 50%;
+            transition: all 1s ease-in-out;
+            font-size: 20px;
+            background-color: rgb(13, 49, 255);
+        }
+
+
+
+        ::placeholder{
+            font-size: 20px;
+            text-align: center;
+            color: rgb(202, 201, 201);
+        }
+
+
+        .elemcont{
+            position: absolute;
+            width: 70%;
+            left: 50%;
+            transform: translate(-50%);
+            width: 70%;
+            margin-top: 90px;
+            color: white;
+        }
+
+
+
+        .elem{
+            margin-top: 30px;
+            border: 1px solid red;
+        }
+
+
+
+
+        .keyvaluediv{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+
+
+
+        .cname{
+            text-align: center;
+        }
+
+
+
+        .routerbtncls{
+            position: fixed;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            border-radius: 15px;
+            width: 100px;
+            height: 35px;
+            background-color: rgb(14, 0, 95);
+            color: white;
+            outline: none;
+            font-weight: bolder;
+            letter-spacing: 1px;
+        }
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <div id="app">
+
+
+        <h1 class="generaltext">World Covid19 Data</h1>
+
+
+        <div class="globalcont">
+            <div class="globalchild">
+                <h1 class="childh1">New Confirmed</h1>
+                <h2 class="childh2">{{ result.Global.NewConfirmed }}</h2>
+            </div>
+
+            <div class="globalchild">
+                <h1 class="childh1">Total Confirmed</h1>
+                <h2 class="childh2">{{ result.Global.TotalConfirmed }}</h2>
+            </div>
+
+            <div class="globalchild">
+                <h1 class="childh1">New Deaths</h1>
+                <h2 class="childh2">{{ result.Global.NewDeaths }}</h2>
+            </div>
+
+            <div class="globalchild">
+                <h1 class="childh1">Total Deaths</h1>
+                <h2 class="childh2">{{ result.Global.TotalDeaths }}</h2>
+            </div>
+
+            <div class="globalchild">
+                <h1 class="childh1">New Recovered</h1>
+                <h2 class="childh2">{{ result.Global.NewRecovered }}</h2>
+            </div>
+
+            <div class="globalchild">
+                <h1 class="childh1">TotalRecovered</h1>
+                <h2 class="childh2">{{ result.Global.TotalRecovered }}</h2>
+            </div>
+        </div>
+
+    </div>
+
+
+    <h1 class="generaltext">Countrys</h1>
+    <input type="text" id="search" placeholder="Search a country">
+
+
+    <div class="elemcont">
+
+        <!-- {% for i in result.Countries %}
+        <div class="elem">
+            <p class="cname">{{ i.Country }}</p>
+            <div class="keyvaluediv">
+    
+                <div class="keyclass">
+                    <p class="key">New Confirmed</p>
+                    <p class="key">Total Confirmed</p>
+                    <p class="key">New Deaths</p>
+                    <p class="key">Total Deaths</p>
+                </div>
+
+                <div class="valueclass">
+                    <p class="value">{{ i.NewConfirmed }}</p>
+                    <p class="value">{{ i.TotalConfirmed }}</p>
+                    <p class="value">{{ i.NewDeaths }}</p>
+                    <p class="value">{{ i.TotalDeaths }}</p>
+                </div>
+    
+            </div>
+        </div>
+
+        {% endfor %} -->
+
+    </div>
+    
+
+<script>
+var request = new XMLHttpRequest()
+var countrys = []
+var result = []
+
+
+// var div = document.querySelector("div")
+// divvalue = div.getAttribute("data-value")
+
+
+
+request.open('GET', 'https://api.covid19api.com/summary', true)
+request.onload = function () {
+    var data = JSON.parse(this.response)
+    for(var i = 0;i<data["Countries"].length;i++){
+        countrys.push(data["Countries"][i]);
+    }
+    // for(var j = 0;j<countrys.length;j++){
+    //     console.log(countrys[j]["Country"],"toplam",countrys[j]["TotalConfirmed"]);
+    // }
+
+    //console.log(countrys[0]);
+
+
+
+
+var inp = document.querySelector("input")
+
+
+
+var applist = []
+
+class app{
+    constructor(data,index){
+        this.data = data
+        this.index = index
+        //console.log("asdsad",this.data);
+
+        this.elemcont = document.querySelector(".elemcont")
+
+        this.elem = document.createElement("div")
+        this.elem.classList.add("elem")
+        this.elemcont.appendChild(this.elem)
+
+        this.cname = document.createElement("p")
+        this.cname.classList.add("cname")
+        this.cname.innerText = this.data[this.index]["Country"]
+        this.elem.appendChild(this.cname)
+
+        this.keyvaluediv = document.createElement("div")
+        this.keyvaluediv.classList.add("keyvaluediv")
+        this.elem.appendChild(this.keyvaluediv)
+
+        this.keyclass = document.createElement("keyclass")
+        this.keyclass.classList.add("keyclass")
+        this.keyvaluediv.appendChild(this.keyclass)
+
+        this.olum = document.createElement("p")
+        this.olum.classList.add("key")
+        this.olum.innerText = "New Confirmed:"
+        this.keyclass.appendChild(this.olum)
+
+        this.xeste = document.createElement("p")
+        this.xeste.classList.add("key")
+        this.xeste.innerText = "Total Confirmed:"
+        this.keyclass.appendChild(this.xeste)
+
+        this.sagal = document.createElement("p")
+        this.sagal.classList.add("key")
+        this.sagal.innerText = "New Deaths:"
+        this.keyclass.appendChild(this.sagal)
+
+        this.bossagal = document.createElement("p")
+        this.bossagal.classList.add("key")
+        this.bossagal.innerText = "Total Deaths:"
+        this.keyclass.appendChild(this.bossagal)
+
+
+        this.valueclass = document.createElement("div")
+        this.valueclass.classList.add("valueclass")
+        this.keyvaluediv.appendChild(this.valueclass)
+
+        this.olumvalue = document.createElement("p")
+        this.olumvalue.classList.add("value")
+        this.olumvalue.innerText = this.data[this.index]["NewConfirmed"]
+        this.valueclass.appendChild(this.olumvalue)
+
+        this.xestevalue = document.createElement("p")
+        this.xestevalue.classList.add("value")
+        this.xestevalue.innerText = this.data[this.index]["TotalConfirmed"]
+        this.valueclass.appendChild(this.xestevalue)
+
+        this.sagalvalue = document.createElement("p")
+        this.sagalvalue.classList.add("key")
+        this.sagalvalue.innerText = this.data[this.index]["NewDeaths"]
+        this.valueclass.appendChild(this.sagalvalue)
+
+
+        this.bosvalue = document.createElement("p")
+        this.bosvalue.classList.add("key")
+        this.bosvalue.innerText = this.data[this.index]["TotalDeaths"]
+        this.valueclass.appendChild(this.bosvalue)
+        
+        this.routerbtn = document.createElement("button")
+        this.routerbtn.classList.add("routerbtncls")
+        this.routerbtn.innerText = "Detailed"
+        // this.routerbtn.setAttribute("href","http://duckduckgo.com")
+        this.routerbtn.addEventListener("click",() =>{
+            this.slug = this.data[this.index]["Slug"]
+            window.location.href='/country/'+this.slug
+        })
+        this.elem.appendChild(this.routerbtn)
+        
+        applist.push(this)
+    }
+}
+
+
+for(var a = 0;a<countrys.length;a++){
+    var app1 = new app(countrys,a)
+}
+
+
+console.log("applist:",applist[0].cname.innerText);
+
+
+
+inp.addEventListener("keyup",() => {
+    var inpvalue = inp.value.trim()
+    for(var i = 0;i<countrys.length;i++){
+        var ara = applist[i].cname.innerText
+        inpvalue = inpvalue.toLowerCase()
+        ara = ara.toLowerCase()
+        if(ara.includes(inpvalue,0)){
+            applist[i].elem.style.display = "block"
+        }
+        else{
+            applist[i].elem.style.display = "none"
+        }
+    }
+    
+
+})
+
+
+
+}
+
+
+request.send()
+
+
+
+</script>
+</body>
+</html>
